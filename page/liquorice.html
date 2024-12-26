@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquorice - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Liquorice (Mulethi)</h1>
+        <p>Liquorice, scientifically known as Glycyrrhiza glabra, is a sweet-tasting plant that has been used for thousands of years in traditional medicine. It is known for its versatile health benefits and rich history in Ayurveda, Chinese medicine, and European herbalism.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Liquorice root has numerous medicinal properties and is widely used in both traditional and modern medicine. Some of its key benefits include:</p>
+        <ul>
+            <li><strong>Respiratory Health:</strong> Liquorice is commonly used to treat coughs, colds, and bronchitis. It helps soothe the throat, reduce inflammation, and ease coughing.</li>
+            <li><strong>Digestive Aid:</strong> Liquorice promotes digestive health by improving the secretion of digestive juices and easing indigestion and heartburn.</li>
+            <li><strong>Anti-inflammatory Properties:</strong> Liquorice is known to have anti-inflammatory effects, helping to reduce swelling and discomfort from inflammatory conditions such as arthritis.</li>
+            <li><strong>Immune System Support:</strong> Liquorice boosts the immune system by promoting the production of interferon, which helps fight viral infections.</li>
+            <li><strong>Skin Health:</strong> Liquorice is often used in skincare for its anti-inflammatory and antioxidant properties, helping to treat skin conditions like eczema, psoriasis, and acne.</li>
+            <li><strong>Hormonal Balance:</strong> It is used to treat hormonal imbalances, particularly for alleviating symptoms of menopause and balancing estrogen levels in the body.</li>
+            <li><strong>Liver Health:</strong> Liquorice has protective effects on the liver and is often used in detoxification and liver cleansing treatments.</li>
+            <li><strong>Anti-viral and Anti-bacterial:</strong> Liquorice has natural anti-viral and anti-bacterial properties, making it beneficial in fighting infections.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Liquorice Tea:</strong> Steep liquorice root in hot water to make a soothing tea that helps with sore throats, coughs, and digestion.</li>
+            <li><strong>Skin Paste:</strong> Create a paste of liquorice powder and water or rose water and apply it to the skin to treat acne, blemishes, and uneven skin tone.</li>
+            <li><strong>Cough Syrup:</strong> Combine liquorice root extract with honey and ginger to create a natural remedy for cough and cold.</li>
+            <li><strong>Stomach Soothing Drink:</strong> Mix liquorice powder with warm water to help reduce bloating, indigestion, and heartburn.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Liquorice is native to parts of Asia and Europe. Growing liquorice requires specific conditions:</p>
+        <ul>
+            <li><strong>Climate:</strong> Liquorice grows best in dry, warm climates with plenty of sunlight. It prefers temperate zones and can be grown in pots or in the ground.</li>
+            <li><strong>Soil:</strong> It thrives in well-drained, sandy loam soil with a pH level of 7.0 to 8.0. The soil should be rich in organic matter.</li>
+            <li><strong>Watering:</strong> Water the plants regularly, but make sure the soil does not become waterlogged. A deep watering is needed during dry spells.</li>
+            <li><strong>Sunlight:</strong> Liquorice requires full sunlight, ideally 6-8 hours of direct sunlight daily for optimal growth.</li>
+            <li><strong>Propagation:</strong> Liquorice can be grown from seeds or root cuttings. Seedlings should be spaced at least 3 feet apart to allow for root growth.</li>
+            <li><strong>Harvesting:</strong> The root is harvested after 3-4 years of growth. It is dug up, cleaned, and dried before use.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <p>In addition to its medicinal uses, liquorice offers several other benefits:</p>
+        <ul>
+            <li><strong>Anti-aging:</strong> The antioxidant properties of liquorice help reduce the appearance of wrinkles, fine lines, and age spots.</li>
+            <li><strong>Stress Relief:</strong> Liquorice is used as an adaptogen to help the body cope with stress and promote mental clarity.</li>
+            <li><strong>Spiritual Significance:</strong> In some cultures, liquorice is considered a sacred herb and is used in rituals to bring peace and tranquility.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to initialize the 3D model
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400); // Match the size of the container
+            renderer.setClearColor(0x000000); // Black background for the 3D scene
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true; // Allow zooming
+            controls.enablePan = true; // Allow panning
+
+            // Load the 3D model
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust model scale
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2; // Position the camera
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container exists
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/liquorice.glb'); // Path to the 3D model file
+        }
+    </script>
+</body>
+</html>

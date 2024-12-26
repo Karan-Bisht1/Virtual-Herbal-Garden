@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Virtual Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Virtual Herbal Garden</h1>
+        <input type="text" id="searchInput" placeholder="Search by plant name..." onkeyup="searchPlants()">
+    </header>
+
+    <main>
+        <!-- Plant Cards Section -->
+        <section class="plant-cards">
+            <h2>Explore Our Herbal Plants</h2>
+            <div class="plants-container">
+                <div class="plant-card" data-plant-name="Neem" onclick="openPlantDetail('neem.html')">
+                    <img src="../images/neem.jpg" alt="Neem Image">
+                    <h2>Neem</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Aloe Vera" onclick="openPlantDetail('aloe_vera.html')">
+                    <img src="../images/aloe_vera.jpg" alt="Aloe Vera Image">
+                    <h2>Aloe Vera</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Hibiscus" onclick="openPlantDetail('hibiscus.html')">
+                    <img src="../images/hibiscus.jpg" alt="Hibiscus Image">
+                    <h2>Hibiscus</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Ashwagandha" onclick="openPlantDetail('ashwagandha.html')">
+                    <img src="../images/ashwagandha.jpg" alt="Ashwagandha Image">
+                    <h2>Ashwagandha</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Ginger" onclick="openPlantDetail('ginger.html')">
+                    <img src="../images/ginger.jpg" alt="Ginger Image">
+                    <h2>Ginger</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Lavender" onclick="openPlantDetail('lavender.html')">
+                    <img src="../images/lavender.jpg" alt="Lavender Image">
+                    <h2>Lavender</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Sage" onclick="openPlantDetail('sage.html')">
+                    <img src="../images/sage.jpg" alt="Sage Image">
+                    <h2>Sage</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Tulsi" onclick="openPlantDetail('tulsi.html')">
+                    <img src="../images/tulsi.png" alt="Tulsi Image">
+                    <h2>Tulsi</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Kalmegh" onclick="openPlantDetail('kalmegh.html')">
+                    <img src="../images/kalmegh.jpg" alt="Kalmegh Image">
+                    <h2>Kalmegh</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Shatavari" onclick="openPlantDetail('shatavari.html')">
+                    <img src="../images/shatavari.jpg" alt="Shatavari Image">
+                    <h2>Shatavari</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Turmeric" onclick="openPlantDetail('turmeric.html')">
+                    <img src="../images/turmeric.jpg" alt="Turmeric Image">
+                    <h2>Turmeric</h2>
+                    <button>Learn More</button>
+                </div>
+                <div class="plant-card" data-plant-name="Liquorice" onclick="openPlantDetail('liquorice.html')">
+                    <img src="../images/liquorice.jpg" alt="Liquorice Image">
+                    <h2>Liquorice</h2>
+                    <button>Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discover the Power of Natural Healing Section -->
+        <section class="discover-healing">
+            <h2>Discover the Power of Natural Healing</h2>
+            <p>Explore a wide variety of time-honored practices designed to promote holistic wellness and rejuvenate your body and mind.</p>
+            <div class="category-cards">
+                <div class="card">
+                    <img src="../icons/ayurveda-icon.png" alt="Ayurveda Icon">
+                    <h3>Ayurveda</h3>
+                    <p>Harness the power of ancient Ayurvedic remedies to restore balance and vitality in your life.</p>
+                </div>
+                <div class="card">
+                    <img src="../icons/yoga-icon.png" alt="Yoga & Naturopathy Icon">
+                    <h3>Yoga & Naturopathy</h3>
+                    <p>Embrace the union of body and mind through Yoga and natural therapies for a healthier you.</p>
+                </div>
+                <div class="card">
+                    <img src="../icons/unani-icon.png" alt="Unani Icon">
+                    <h3>Unani</h3>
+                    <p>Explore the time-tested Unani system that promotes holistic health with natural healing techniques.</p>
+                </div>
+                <div class="card">
+                    <img src="../icons/siddha-icon.png" alt="Siddha Icon">
+                    <h3>Siddha</h3>
+                    <p>Discover Siddha medicine, a traditional system that emphasizes balance and natural treatments.</p>
+                </div>
+                <div class="card">
+                    <img src="../icons/homeopathy-icon.png" alt="Homeopathy Icon">
+                    <h3>Homeopathy</h3>
+                    <p>Unlock the gentle power of Homeopathy to address ailments and improve overall well-being.</p>
+                </div>
+            </div>
+        </section>
+
+    </main> 
+
+    <footer>
+        <p>&copy; 2024 Virtual Herbal Garden</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

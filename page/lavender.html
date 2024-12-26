@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavender - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Lavender</h1>
+        <p>Lavandula angustifolia, commonly known as lavender, is a fragrant herb popular for its relaxing properties and use in aromatherapy.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <p style="color: white;" id="loadingMessage">Loading model...</p>
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Lavender has several medicinal benefits, such as:</p>
+        <ul>
+            <li><strong>Stress Relief:</strong> Lavender is widely used for reducing stress and promoting relaxation.</li>
+            <li><strong>Sleep Aid:</strong> Lavender is a natural remedy for insomnia and improving the quality of sleep.</li>
+            <li><strong>Anxiety Reduction:</strong> Lavender has calming effects, helping reduce anxiety and depression symptoms.</li>
+            <li><strong>Pain Relief:</strong> Lavender oil is used to relieve headaches, muscle pain, and menstrual cramps.</li>
+            <li><strong>Skin Care:</strong> Lavender oil has antiseptic properties and is often used for treating acne and skin irritation.</li>
+            <li><strong>Antioxidant Properties:</strong> Lavender contains compounds that protect against oxidative stress.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Lavender Tea:</strong> Brew lavender flowers in hot water to reduce anxiety and promote relaxation.</li>
+            <li><strong>Lavender Oil Massage:</strong> Use diluted lavender essential oil to massage sore muscles or relax the mind.</li>
+            <li><strong>Lavender Bath:</strong> Add lavender oil or dried flowers to a bath to help with sleep and relaxation.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Lavender is a hardy herb that thrives in sunny, well-drained conditions:</p>
+        <ul>
+            <li><strong>Climate:</strong> Lavender prefers dry, sunny climates and requires a hot, sunny growing environment.</li>
+            <li><strong>Soil:</strong> It thrives in well-drained, slightly alkaline soil with good air circulation.</li>
+            <li><strong>Watering:</strong> Lavender needs minimal watering and should be watered only when the soil is dry.</li>
+            <li><strong>Sunlight:</strong> Lavender requires full sunlight (at least 6 hours per day) for optimal growth.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Aromatherapy:</strong> Lavender oil is used in diffusers and candles to create a calming atmosphere.</li>
+            <li><strong>Natural Insect Repellent:</strong> Lavender is known to repel mosquitoes and other insects naturally.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const container = document.getElementById('modelContainer');
+            const loadingMessage = document.getElementById('loadingMessage');
+            loadingMessage.style.display = 'block'; // Show loading message
+
+            // Scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor(0x000000);
+            container.innerHTML = ''; // Clear previous content
+            container.appendChild(renderer.domElement);
+
+            // Controls for interaction
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            // Load model
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                modelPath, // Path to the model
+                (gltf) => {
+                    loadingMessage.style.display = 'none'; // Hide loading message
+                    gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust model scale
+                    scene.add(gltf.scene);
+
+                    // Debugging: log the model's size and position
+                    const box = new THREE.Box3().setFromObject(gltf.scene);
+                    const size = box.getSize(new THREE.Vector3());
+                    const center = box.getCenter(new THREE.Vector3());
+                    console.log("Model Loaded. Size:", size, "Center:", center);
+
+                    // Adjust camera position based on model size and center
+                    camera.position.z = size.z * 2; // Position the camera based on model size
+                    controls.target.copy(center); // Ensure controls are centered on the model
+                    controls.update();
+                },
+                undefined,
+                (error) => {
+                    loadingMessage.textContent = "Model could not be loaded. Please try again later.";
+                    console.error('An error occurred while loading the model:', error);
+                }
+            );
+
+            // Default camera position
+            camera.position.z = 2;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update the controls for interaction
+                renderer.render(scene, camera); // Render the scene
+            }
+            animate();
+        }
+
+        // Specify the model path (adjust as needed)
+        window.addEventListener('load', () => {
+            init3DModel('../models/lavender.glb'); // Path to the 3D model file
+        });
+    </script>
+</body>
+</html>

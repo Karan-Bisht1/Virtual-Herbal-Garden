@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ginger - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Ginger</h1>
+        <p>Zingiber officinale, commonly known as ginger, is a flowering plant widely used for its medicinal properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <p id="loadingMessage" style="color: white; font-size: 16px;">Loading 3D model...</p>
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Ginger is one of the most widely used herbal medicines, with the following benefits:</p>
+        <ul>
+            <li><strong>Digestive Aid:</strong> Ginger helps improve digestion, relieve nausea, and alleviate bloating.</li>
+            <li><strong>Anti-inflammatory:</strong> Ginger has potent anti-inflammatory properties that help in reducing pain and swelling.</li>
+            <li><strong>Relieves Nausea:</strong> Ginger is effective in treating nausea caused by motion sickness, pregnancy, and chemotherapy.</li>
+            <li><strong>Boosts Immunity:</strong> Ginger has antioxidant and antimicrobial properties that help boost the immune system.</li>
+            <li><strong>Reduces Muscle Pain:</strong> Ginger can help reduce muscle soreness after intense physical activity.</li>
+            <li><strong>Supports Cardiovascular Health:</strong> Ginger helps reduce cholesterol levels and improve circulation.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Ginger Tea:</strong> Brew ginger slices in hot water to relieve nausea and improve digestion.</li>
+            <li><strong>Ginger Compress:</strong> Apply a ginger compress to reduce muscle pain and inflammation.</li>
+            <li><strong>Ginger Honey Paste:</strong> Mix ginger and honey to soothe a sore throat and cough.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Ginger is an easy-to-grow plant that thrives in warm, humid conditions:</p>
+        <ul>
+            <li><strong>Climate:</strong> Ginger grows best in tropical climates with high humidity.</li>
+            <li><strong>Soil:</strong> Ginger prefers loose, well-draining soil rich in organic matter.</li>
+            <li><strong>Watering:</strong> Ginger requires regular watering but should not be waterlogged.</li>
+            <li><strong>Sunlight:</strong> Ginger requires indirect sunlight and some shade for optimal growth.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Flavoring Agent:</strong> Ginger is widely used in cooking and beverages for its sharp flavor.</li>
+            <li><strong>Air Purification:</strong> Ginger helps purify the air by removing toxins.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to initialize the 3D model
+        function init3DModel(modelPath) {
+            const container = document.getElementById('modelContainer');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(
+                75,
+                container.clientWidth / container.clientHeight,
+                0.1,
+                1000
+            );
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor(0xeeeeee);  // Set background color to light gray
+            container.innerHTML = '';
+            container.appendChild(renderer.domElement);
+
+            // Add lighting
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(5, 5, 5).normalize();
+            scene.add(light);
+
+            const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft ambient light
+            scene.add(ambientLight);
+
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                modelPath,
+                (gltf) => {
+                    const model = gltf.scene;
+                    model.scale.set(1, 1, 1); // Ensure model is scaled appropriately
+                    model.position.set(0, 0, 0); // Set position to center
+                    scene.add(model);
+                    loadingMessage.style.display = 'none';
+
+                    // Debugging model bounds
+                    const box = new THREE.Box3().setFromObject(model);
+                    const size = box.getSize(new THREE.Vector3());
+                    const center = box.getCenter(new THREE.Vector3());
+                    console.log("Model Loaded. Size:", size, "Center:", center);
+
+                    // Adjust camera position based on model size and position
+                    camera.position.set(center.x, center.y, size.z * 2);
+                    controls.target.copy(center);
+                    controls.update();
+                },
+                undefined,
+                (error) => {
+                    loadingMessage.textContent = "Model could not be loaded.";
+                    console.error('Error loading model:', error);
+                }
+            );
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container exists
+        init3DModel('../models/ginger.glb'); // Adjust path if needed
+    </script>
+</body>
+</html>

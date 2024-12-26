@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tulsi - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Tulsi</h1>
+        <p>Ocimum tenuiflorum, commonly known as holy basil or tulsi, is an aromatic perennial plant in the family Lamiaceae.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Tulsi is considered a sacred plant in India and has been used for centuries in Ayurvedic and traditional medicine. Its medicinal properties include:</p>
+        <ul>
+            <li><strong>Immune Booster:</strong> Tulsi enhances the body's natural defense mechanisms and helps combat infections.</li>
+            <li><strong>Respiratory Health:</strong> Tulsi is effective in treating respiratory issues such as asthma, bronchitis, and colds. It helps clear congestion and improves lung function.</li>
+            <li><strong>Stress Relief:</strong> Tulsi is known for its adaptogenic properties, helping reduce stress, anxiety, and fatigue.</li>
+            <li><strong>Anti-inflammatory Properties:</strong> Tulsi reduces inflammation in the body and is beneficial for arthritis and other inflammatory conditions.</li>
+            <li><strong>Digestive Health:</strong> It aids digestion, relieves bloating, and improves gut health.</li>
+            <li><strong>Heart Health:</strong> Tulsi helps regulate cholesterol and blood pressure, promoting overall cardiovascular health.</li>
+            <li><strong>Skin Health:</strong> Tulsi is used to treat skin disorders such as acne, eczema, and fungal infections due to its antibacterial and antifungal properties.</li>
+            <li><strong>Diabetes Management:</strong> Regular consumption of Tulsi may help lower blood sugar levels.</li>
+            <li><strong>Liver Protection:</strong> Tulsi supports liver function and helps detoxify the body.</li>
+            <li><strong>Antioxidant Properties:</strong> Tulsi contains antioxidants that help fight free radicals and reduce oxidative stress.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Tulsi Tea:</strong> Brew Tulsi leaves with water to create a herbal tea that boosts immunity and relieves stress.</li>
+            <li><strong>Skin Paste:</strong> Make a paste of Tulsi leaves to treat acne, insect bites, and skin irritations.</li>
+            <li><strong>Sore Throat Relief:</strong> Gargle with warm water infused with Tulsi leaves for relief from sore throat and infections.</li>
+            <li><strong>Cough Syrup:</strong> Mix Tulsi juice with honey and ginger to create a natural cough remedy.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Tulsi is easy to grow and can thrive in a variety of climates. Here's a guide to cultivating Tulsi:</p>
+        <ul>
+            <li><strong>Climate:</strong> Tulsi grows best in tropical and subtropical climates. It requires warm temperatures and plenty of sunlight.</li>
+            <li><strong>Soil:</strong> Use well-drained, nutrient-rich soil with a pH level of 6 to 7. Tulsi thrives in slightly acidic to neutral soil.</li>
+            <li><strong>Watering:</strong> Water the plant regularly but avoid overwatering. Let the soil dry slightly between watering sessions.</li>
+            <li><strong>Sunlight:</strong> Place the plant in a location where it receives at least 4-6 hours of direct sunlight daily.</li>
+            <li><strong>Propagation:</strong> Tulsi can be grown from seeds or cuttings. Sow seeds 1/4 inch deep in the soil and keep them moist until germination.</li>
+            <li><strong>Pruning:</strong> Regular pruning helps promote healthy growth and prevents the plant from becoming too woody.</li>
+            <li><strong>Pest Control:</strong> Use organic pest control methods to protect Tulsi from pests such as aphids and spider mites.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <p>Beyond its medicinal uses and ease of cultivation, Tulsi offers numerous other benefits:</p>
+        <ul>
+            <li><strong>Religious Significance:</strong> Tulsi is considered sacred in Hinduism and is often planted near homes and temples for spiritual protection.</li>
+            <li><strong>Air Purification:</strong> Tulsi helps purify the air by absorbing toxins and releasing oxygen.</li>
+            <li><strong>Flavoring Agent:</strong> Tulsi leaves are used in cooking and beverages to add flavor and aroma.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to initialize the 3D model
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400); // Match the size of the container
+            renderer.setClearColor(0x000000); // Black background for the 3D scene
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true; // Allow zooming
+            controls.enablePan = true; // Allow panning
+
+            // Load the 3D model
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust model scale
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2; // Position the camera
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container exists
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/tulsi.glb'); // Path to the 3D model file
+        }
+    </script>
+</body>
+</html>

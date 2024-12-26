@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalmegh - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Kalmegh</h1>
+        <p><i>Andrographis paniculata</i>, commonly known as Kalmegh or "King of Bitters," is a highly valued medicinal herb in the Unani, Siddha, and Homeopathy systems. It is renowned for its hepatoprotective, anti-inflammatory, and immune-boosting properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Kalmegh is used in the following systems:</p>
+        <ul>
+            <li><strong>Unani:</strong> Used for treating fevers, liver disorders, and digestive issues.</li>
+            <li><strong>Siddha:</strong> Known as "Nilavembu," it is used for treating viral fevers, arthritis, and skin diseases.</li>
+            <li><strong>Homeopathy:</strong> Used in tinctures to address chronic liver and digestive problems.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Kalmegh Tea:</strong> A herbal infusion made with dried leaves is used to improve liver health and boost immunity.</li>
+            <li><strong>Liver Tonic:</strong> Kalmegh powder mixed with honey can be taken to detoxify the liver and manage jaundice.</li>
+            <li><strong>Skin Paste:</strong> A paste of Kalmegh leaves is applied to wounds for faster healing and to reduce inflammation.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <ul>
+            <li><strong>Climate:</strong> Kalmegh thrives in tropical and subtropical climates with temperatures ranging between 25-35°C.</li>
+            <li><strong>Soil:</strong> Grows well in sandy or loamy soils with good drainage and a pH level between 6.0-7.5.</li>
+            <li><strong>Watering:</strong> Requires moderate watering, ensuring the soil is not waterlogged.</li>
+            <li><strong>Propagation:</strong> Propagated through seeds; seeds should be sown in well-prepared beds.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Anti-Malarial:</strong> Kalmegh is used for treating malaria and other febrile conditions.</li>
+            <li><strong>Immune Boosting:</strong> Regular consumption helps enhance the body's immune response to infections.</li>
+            <li><strong>Anti-Cancer Potential:</strong> Research suggests its extracts may have cancer-fighting properties.</li>
+            <li><strong>Environmental Use:</strong> Acts as a natural pest repellent in agricultural practices.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            renderer.setClearColor(0x000000);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8);
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/kalmegh.glb');
+        }
+    </script>
+</body>
+</html>

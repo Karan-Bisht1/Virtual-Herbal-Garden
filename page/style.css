@@ -1,0 +1,196 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 50%;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Plant Cards Section */
+.plant-cards {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.plants-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+    gap: 20px; /* Space between cards */
+    justify-items: center;
+}
+
+.plant-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.plant-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.plant-card h2 {
+    margin-top: 10px;
+    font-size: 22px;
+    color: #333;
+}
+
+.plant-card button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.plant-card:hover {
+    transform: scale(1.05);
+}
+
+/* Discover Natural Healing Section */
+.discover-healing {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f4f4f4;
+}
+
+.discover-healing h2 {
+    font-size: 32px;
+    color: #28a745;  /* Green color for the section title */
+    margin-bottom: 20px;
+}
+
+.discover-healing p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.category-cards {
+    display: flex;
+    justify-content: space-between;  /* Space out the cards */
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;  /* Prevent wrapping */
+    overflow-x: auto;   /* Enable scrolling if needed */
+}
+
+.card {
+    background-color: #d1f7e4; /* Light Green */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.card:nth-child(2) {
+    background-color: #fff9c4; /* Light Yellow */
+}
+
+.card:nth-child(3) {
+    background-color: #e1bee7; /* Light Purple */
+}
+
+.card:nth-child(4) {
+    background-color: #e8f5e9; /* Very Light Green */
+}
+
+.card:nth-child(5) {
+    background-color: #f3e5f5; /* Light Lavender */
+}
+
+.card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: #333;
+}
+
+.card p {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive layout: Adjust for smaller screens */
+@media (max-width: 1200px) {
+    .plants-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row on medium screens */
+    }
+
+    .category-cards {
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .plants-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row on smaller screens */
+    }
+
+    .category-cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .plants-container {
+        grid-template-columns: 1fr; /* 1 card per row on very small screens */
+    }
+
+    .category-cards {
+        grid-template-columns: 1fr; /* 1 card per row on small screens */
+    }
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+}

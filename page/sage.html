@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sage - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Sage</h1>
+        <p>Salvia officinalis, commonly known as sage, is a medicinal herb known for its anti-inflammatory, antioxidant, and antimicrobial properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Sage has numerous medicinal benefits, including:</p>
+        <ul>
+            <li><strong>Improved Digestion:</strong> Sage helps in reducing bloating and indigestion.</li>
+            <li><strong>Antioxidant Properties:</strong> Sage is rich in antioxidants that help protect the body from oxidative stress.</li>
+            <li><strong>Memory and Cognitive Function:</strong> Sage is believed to improve cognitive function and memory.</li>
+            <li><strong>Anti-inflammatory:</strong> Sage is used for treating inflammation and relieving pain.</li>
+            <li><strong>Antibacterial and Antiviral:</strong> Sage has natural antibacterial and antiviral properties that help fight infections.</li>
+            <li><strong>Supports Hormonal Balance:</strong> Sage is used to help with menopausal symptoms and hormonal imbalances.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Sage Tea:</strong> Brew sage leaves in hot water to relieve sore throat, improve digestion, and reduce inflammation.</li>
+            <li><strong>Sage Gargle:</strong> Use sage tea as a gargle to soothe a sore throat and reduce mouth infections.</li>
+            <li><strong>Sage Oil Massage:</strong> Apply diluted sage essential oil to reduce pain and inflammation in muscles and joints.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Sage is a hardy herb that prefers a sunny, well-drained environment:</p>
+        <ul>
+            <li><strong>Climate:</strong> Sage thrives in warm, sunny climates with minimal humidity.</li>
+            <li><strong>Soil:</strong> It prefers slightly alkaline, well-draining soil with good air circulation.</li>
+            <li><strong>Watering:</strong> Sage requires moderate watering but should never be waterlogged.</li>
+            <li><strong>Sunlight:</strong> Sage requires full sun (at least 6 hours a day) for optimal growth.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Flavoring Agent:</strong> Sage is widely used in cooking for its distinctive savory flavor.</li>
+            <li><strong>Natural Insect Repellent:</strong> Sage is known to repel mosquitoes and other pests naturally.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to initialize the 3D model
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400); // Match the size of the container
+            renderer.setClearColor(0x000000); // Black background for the 3D scene
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true; // Allow zooming
+            controls.enablePan = true; // Allow panning
+
+            // Load the 3D model
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust model scale
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            // Add lighting
+            const light = new THREE.AmbientLight(0x404040, 2); // Ambient light
+            scene.add(light);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional light
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            camera.position.z = 2; // Position the camera
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container exists
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/sage.glb'); // Path to the 3D model file
+        }
+    </script>
+</body>
+</html>

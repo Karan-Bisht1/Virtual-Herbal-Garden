@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neem - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Neem</h1>
+        <p>Neem (<i>Azadirachta indica</i>), often referred to as the "village pharmacy," is a versatile medicinal plant used extensively in Ayurveda, Unani, Siddha, and Homeopathy systems. Known for its antifungal, antibacterial, and anti-inflammatory properties, neem has been a cornerstone of natural medicine for centuries.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Neem is widely used in various AYUSH systems:</p>
+        <ul>
+            <li><strong>Ayurveda:</strong> Neem is used in skin care, digestive disorders, and purifying the blood.</li>
+            <li><strong>Unani:</strong> It is employed for treating fevers, ulcers, and skin diseases.</li>
+            <li><strong>Siddha:</strong> Neem is used as an antimicrobial agent and to treat hair and scalp issues.</li>
+            <li><strong>Homeopathy:</strong> Neem extracts are used in tinctures for treating chronic skin conditions like eczema and psoriasis.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Neem Oil:</strong> Neem oil is widely used for treating acne, dandruff, and dry skin.</li>
+            <li><strong>Neem Tea:</strong> Neem leaves brewed in water create a detoxifying drink for improved immunity and digestion.</li>
+            <li><strong>Wound Healing:</strong> Crushed neem leaves can be applied directly to wounds to promote faster healing.</li>
+            <li><strong>Dental Care:</strong> Neem twigs are used as natural toothbrushes to maintain oral hygiene and prevent cavities.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <ul>
+            <li><strong>Climate:</strong> Neem thrives in tropical and subtropical climates with plenty of sunlight.</li>
+            <li><strong>Soil:</strong> Grows well in sandy, loamy, or clayey soils with good drainage and pH levels of 6.0-8.0.</li>
+            <li><strong>Watering:</strong> Requires minimal watering and is highly drought-resistant.</li>
+            <li><strong>Propagation:</strong> Neem is propagated through seeds and sometimes via cuttings or grafting.</li>
+            <li><strong>Planting Season:</strong> Ideal planting time is during the monsoon season for optimal growth.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Natural Insecticide:</strong> Neem oil and leaves are used as eco-friendly pest repellents in agriculture.</li>
+            <li><strong>Air Purification:</strong> Neem trees help purify the air by absorbing pollutants and releasing oxygen.</li>
+            <li><strong>Environmental Uses:</strong> The tree helps prevent soil erosion and improve soil fertility.</li>
+            <li><strong>Cosmetic Applications:</strong> Neem extracts are found in soaps, shampoos, and skincare products.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #6a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            renderer.setClearColor(0x000000);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                console.log("Model loaded successfully");
+                gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust the scale of the model
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.set(0, 0, 5); // Adjust camera position
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Call the function to initialize the 3D model
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/neem.glb'); // Adjust the model path if needed
+        }
+    </script>
+</body>
+</html>

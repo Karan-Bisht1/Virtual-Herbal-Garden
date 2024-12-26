@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashwagandha - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Ashwagandha</h1>
+        <p>Ashwagandha (Withania somnifera), also known as Indian Ginseng or Winter Cherry, is a prominent herb in Ayurvedic medicine, known for its rejuvenating and adaptogenic properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: #2a2a2a; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <ul>
+            <li><strong>Stress Relief:</strong> Ashwagandha is known for its adaptogenic properties, helping the body manage stress and anxiety.</li>
+            <li><strong>Boosts Energy Levels:</strong> It enhances physical stamina and reduces fatigue.</li>
+            <li><strong>Supports Brain Function:</strong> Improves memory, concentration, and overall cognitive function.</li>
+            <li><strong>Anti-inflammatory:</strong> Reduces inflammation and aids in conditions like arthritis.</li>
+            <li><strong>Immune Booster:</strong> Strengthens the immune system and improves overall health.</li>
+            <li><strong>Hormonal Balance:</strong> Useful for regulating hormones and managing thyroid function.</li>
+            <li><strong>Heart Health:</strong> Helps reduce cholesterol and blood pressure, promoting cardiovascular health.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Ashwagandha Milk:</strong> Mix Ashwagandha powder with warm milk and honey to improve sleep and reduce stress.</li>
+            <li><strong>Herbal Tea:</strong> Brew Ashwagandha roots in water to create a tea that boosts immunity and reduces fatigue.</li>
+            <li><strong>Energy Tonic:</strong> Combine Ashwagandha powder with ghee and sugar for a natural energy booster.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <ul>
+            <li><strong>Climate:</strong> Ashwagandha thrives in dry and subtropical climates with temperatures between 20-35°C.</li>
+            <li><strong>Soil:</strong> It grows well in well-drained sandy or loamy soil with a pH range of 7.5-8.</li>
+            <li><strong>Watering:</strong> Requires moderate watering; avoid overwatering to prevent root rot.</li>
+            <li><strong>Sunlight:</strong> Prefers full sunlight for optimal growth.</li>
+            <li><strong>Propagation:</strong> Propagated through seeds; sow seeds directly in the soil during spring or early summer.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Anti-aging:</strong> Ashwagandha delays aging by reducing oxidative stress and promoting cellular regeneration.</li>
+            <li><strong>Enhances Fertility:</strong> Known to improve fertility and vitality in both men and women.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            // Create a scene
+            const scene = new THREE.Scene();
+            
+            // Set up the camera
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            // Set the background color of the renderer to transparent
+            renderer.setClearColor(0x2a2a2a);  // Same color as modelContainer's background
+            
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            // Load the GLTF model
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8);  // Scale the model
+                gltf.scene.position.set(0, 0, 0);    // Position the model at the origin
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            // Set camera position
+            camera.position.z = 2;
+
+            // Add lighting to the scene
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera); // Render the scene
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container is available
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/ashwagandha.glb'); // Replace with your actual model path
+        }
+    </script>
+</body>
+</html>

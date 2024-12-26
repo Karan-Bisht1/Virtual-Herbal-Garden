@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turmeric - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Turmeric</h1>
+        <p>Turmeric (<i>Curcuma longa</i>) is a vibrant yellow-orange spice widely used for its medicinal, culinary, and cosmetic properties. Known as the "Golden Spice," it has been a cornerstone of traditional Indian and Chinese medicine for thousands of years. Turmeric contains curcumin, a compound with potent antioxidant, anti-inflammatory, and antimicrobial properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <ul>
+            <li><strong>Anti-inflammatory Properties:</strong> Turmeric is widely used to reduce inflammation in conditions like arthritis and joint pain.</li>
+            <li><strong>Boosts Immunity:</strong> Turmeric strengthens the immune system and helps the body fight off infections and diseases.</li>
+            <li><strong>Digestive Health:</strong> Turmeric improves digestion, relieves bloating, and treats conditions like irritable bowel syndrome (IBS).</li>
+            <li><strong>Skin Health:</strong> Turmeric is used to treat acne, eczema, psoriasis, and other skin conditions due to its antibacterial and anti-inflammatory effects.</li>
+            <li><strong>Antioxidant Properties:</strong> Curcumin neutralizes free radicals, reducing oxidative stress and slowing aging.</li>
+            <li><strong>Heart Health:</strong> Regular consumption helps reduce cholesterol levels and improve cardiovascular function.</li>
+            <li><strong>Brain Health:</strong> Curcumin supports cognitive function, helps prevent neurodegenerative diseases like Alzheimer's, and enhances memory.</li>
+            <li><strong>Diabetes Management:</strong> Turmeric helps regulate blood sugar levels and improves insulin sensitivity.</li>
+            <li><strong>Wound Healing:</strong> Turmeric paste promotes healing of cuts, burns, and infections.</li>
+            <li><strong>Liver Detoxification:</strong> Enhances liver function and aids in detoxification of harmful substances.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Golden Milk:</strong> A warm drink made with milk, turmeric, honey, and pepper to boost immunity and relieve colds.</li>
+            <li><strong>Face Mask:</strong> Turmeric mixed with yogurt or honey can be applied to the skin to brighten complexion and reduce acne.</li>
+            <li><strong>Anti-inflammatory Paste:</strong> Make a paste with turmeric and water to apply on swollen or painful areas.</li>
+            <li><strong>Sore Throat Remedy:</strong> Gargle with warm water, turmeric, and salt to alleviate throat infections.</li>
+            <li><strong>Digestion Aid:</strong> Mix a pinch of turmeric in warm water and drink it before meals to promote digestion.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <ul>
+            <li><strong>Climate:</strong> Turmeric thrives in tropical and subtropical regions with warm temperatures and high humidity.</li>
+            <li><strong>Soil:</strong> Requires fertile, well-drained soil with a pH range of 5.5 to 6.5. Sandy loam or clayey soil is ideal.</li>
+            <li><strong>Watering:</strong> Regular watering is essential, especially during the growing season. Avoid waterlogging to prevent root rot.</li>
+            <li><strong>Propagation:</strong> Turmeric is propagated through rhizomes (underground stems). Plant rhizomes about 2-3 inches deep.</li>
+            <li><strong>Planting Season:</strong> Best planted at the onset of the monsoon or during spring in warmer climates.</li>
+            <li><strong>Harvesting:</strong> Turmeric is ready to harvest in 8-10 months when the leaves start turning yellow and dry.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Culinary Use:</strong> Turmeric is a key ingredient in curries, teas, and condiments, adding flavor, color, and nutritional benefits.</li>
+            <li><strong>Natural Dye:</strong> Used as a vibrant yellow dye for textiles and food coloring.</li>
+            <li><strong>Preservative:</strong> Its antimicrobial properties make it effective in preserving food.</li>
+            <li><strong>Air Purifier:</strong> Turmeric plants improve air quality by absorbing toxins and releasing oxygen.</li>
+            <li><strong>Traditional Rituals:</strong> Widely used in religious ceremonies and weddings for its auspicious and purifying qualities.</li>
+            <li><strong>Stress Reduction:</strong> Consuming turmeric promotes relaxation and reduces stress and anxiety levels.</li>
+            <li><strong>Anti-pollutant Properties:</strong> The plant helps filter air pollutants and maintain a healthy environment.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #e0a72e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            renderer.setClearColor(0x000000);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8);
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/turmeric.glb');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aloe Vera - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Aloe Vera</h1>
+        <p>Aloe Vera (Aloe barbadensis miller) is a succulent plant known for its diverse medicinal, cosmetic, and environmental benefits. It is a staple in traditional medicine, modern skincare, and household remedies. Native to arid regions, it is easy to cultivate and maintain, making it a favorite among gardeners and health enthusiasts alike.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <ul>
+            <li><strong>Skin Care:</strong> Aloe Vera gel soothes burns, heals wounds, reduces acne, and moisturizes the skin.</li>
+            <li><strong>Digestive Health:</strong> Consuming Aloe Vera juice helps in alleviating constipation, balancing stomach acid, and reducing inflammation in the digestive tract.</li>
+            <li><strong>Immune Booster:</strong> Rich in antioxidants and essential nutrients, Aloe Vera helps combat free radicals and strengthens the immune system.</li>
+            <li><strong>Hair and Scalp Health:</strong> Treats dandruff, reduces scalp irritation, and stimulates hair growth.</li>
+            <li><strong>Diabetes Management:</strong> May help regulate blood sugar levels when consumed in moderation.</li>
+            <li><strong>Anti-inflammatory Properties:</strong> Reduces inflammation in joints, muscles, and other parts of the body.</li>
+            <li><strong>Oral Health:</strong> Soothes gum diseases, reduces mouth ulcers, and prevents plaque buildup.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Natural Moisturizer:</strong> Use fresh Aloe Vera gel directly on the skin for hydration and to reduce dryness.</li>
+            <li><strong>Sunburn Relief:</strong> Apply Aloe Vera gel on sunburnt skin to soothe irritation and promote healing.</li>
+            <li><strong>Hair Conditioner:</strong> Mix Aloe Vera gel with coconut oil and apply to your hair for a natural conditioner.</li>
+            <li><strong>Immune Drink:</strong> Blend Aloe Vera juice with honey, lemon, and water for a detoxifying drink.</li>
+            <li><strong>Cold and Cough Remedy:</strong> Consume Aloe Vera juice mixed with warm water and ginger to relieve cold symptoms.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <ul>
+            <li><strong>Climate:</strong> Aloe Vera thrives in warm, dry climates and is highly drought-tolerant.</li>
+            <li><strong>Soil:</strong> Prefers sandy or loamy soil that is well-draining. Ensure the soil is slightly acidic to neutral (pH 6-8).</li>
+            <li><strong>Watering:</strong> Requires minimal watering. Water sparingly, allowing the soil to dry completely between waterings.</li>
+            <li><strong>Sunlight:</strong> Aloe Vera needs bright, indirect sunlight and can tolerate partial shade. Direct sunlight may cause leaves to turn brown.</li>
+            <li><strong>Propagation:</strong> Easily propagated through offsets or "pups" growing at the base of the plant.</li>
+            <li><strong>Maintenance:</strong> Avoid overwatering, as Aloe Vera is prone to root rot.</li>
+            <li><strong>Harvesting:</strong> Mature leaves can be cut from the base as needed for gel extraction.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Air Purification:</strong> Aloe Vera absorbs toxins such as formaldehyde and benzene, improving indoor air quality.</li>
+            <li><strong>Cosmetic Ingredient:</strong> Used in lotions, creams, shampoos, and sunscreens for its hydrating and anti-aging properties.</li>
+            <li><strong>Decorative Plant:</strong> An aesthetically pleasing, low-maintenance plant suitable for homes and offices.</li>
+            <li><strong>Pain Relief:</strong> Gel can be applied to insect bites, rashes, or minor cuts to alleviate pain and itching.</li>
+            <li><strong>Food Preservative:</strong> Aloe Vera gel is used as a natural food preservative due to its antibacterial properties.</li>
+            <li><strong>Environmental Benefits:</strong> Requires very little water and can be grown in arid regions, making it an eco-friendly plant.</li>
+            <li><strong>Anti-pollutant Properties:</strong> Aloe Vera helps reduce indoor pollution by absorbing harmful volatile compounds.</li>
+            <li><strong>Stress Relief:</strong> The presence of Aloe Vera in living spaces promotes calmness and reduces stress, enhancing mental well-being.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            renderer.setClearColor(0x000000);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8);
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/aloe_vera.glb');
+        }
+    </script>
+</body>
+</html>

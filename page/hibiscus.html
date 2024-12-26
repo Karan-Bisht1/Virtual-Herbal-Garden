@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hibiscus - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Hibiscus</h1>
+        <p>Hibiscus rosa-sinensis, commonly known as hibiscus, is a tropical plant widely appreciated for its beautiful flowers and medicinal properties.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Hibiscus is known for its wide range of medicinal properties, including:</p>
+        <ul>
+            <li><strong>Blood Pressure Regulation:</strong> Hibiscus is famous for its ability to lower high blood pressure.</li>
+            <li><strong>Antioxidant Properties:</strong> Hibiscus is rich in antioxidants, which help combat oxidative stress.</li>
+            <li><strong>Cholesterol Management:</strong> Hibiscus can help reduce cholesterol levels, promoting heart health.</li>
+            <li><strong>Weight Loss Aid:</strong> It may help with weight management by preventing fat accumulation.</li>
+            <li><strong>Improves Digestion:</strong> Hibiscus aids in improving digestion and has mild laxative properties.</li>
+            <li><strong>Anti-inflammatory:</strong> It reduces inflammation in the body and helps with pain relief.</li>
+            <li><strong>Boosts Immune System:</strong> Hibiscus is rich in Vitamin C and can enhance immune function.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Hibiscus Tea:</strong> Brew dried hibiscus petals to make a refreshing tea that can lower blood pressure and improve digestion.</li>
+            <li><strong>Hair Care:</strong> Hibiscus can be used as a natural hair conditioner, preventing hair loss and promoting hair growth.</li>
+            <li><strong>Skin Care:</strong> Use hibiscus paste to treat acne, dark spots, and to rejuvenate the skin.</li>
+            <li><strong>Hibiscus Syrup:</strong> Make a syrup from hibiscus flowers and honey to treat colds and respiratory issues.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Hibiscus is relatively easy to grow and can be cultivated in the right conditions:</p>
+        <ul>
+            <li><strong>Climate:</strong> Hibiscus prefers warm, tropical climates with plenty of sunlight.</li>
+            <li><strong>Soil:</strong> Well-draining, slightly acidic to neutral soil is ideal for hibiscus.</li>
+            <li><strong>Watering:</strong> Regular watering is required, but ensure the soil isn't waterlogged.</li>
+            <li><strong>Sunlight:</strong> Hibiscus needs at least 5-6 hours of direct sunlight daily.</li>
+            <li><strong>Propagation:</strong> Can be propagated from seeds or cuttings.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <ul>
+            <li><strong>Cosmetic Use:</strong> Hibiscus extract is used in skincare products for its anti-aging and moisturizing properties.</li>
+            <li><strong>Air Purification:</strong> It helps purify the air by removing toxins.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function to initialize the 3D model
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400); // Match the size of the container
+            renderer.setClearColor(0x000000); // Black background for the 3D scene
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            // Add orbit controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true; // Allow zooming
+            controls.enablePan = true; // Allow panning
+
+            // Load the 3D model
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8); // Adjust model scale
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2; // Position the camera
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update(); // Update controls
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Initialize the 3D model if the container exists
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/hibiscus.glb'); // Path to the 3D model file
+        }
+    </script>
+</body>
+</html>

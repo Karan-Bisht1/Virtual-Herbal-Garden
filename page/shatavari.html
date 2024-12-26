@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shatavari - Herbal Garden</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; padding: 20px;">
+    <div style="text-align: left; max-width: 800px; width: 100%; margin-bottom: 20px;">
+        <h1 style="margin-bottom: 10px;">Shatavari</h1>
+        <p><i>Asparagus racemosus</i>, commonly known as Shatavari, is a powerful adaptogenic herb traditionally used in Ayurveda, Unani, Siddha, and Homeopathy. Known as the "Queen of Herbs," it is celebrated for its ability to promote reproductive health, balance hormones, and boost immunity. It is also known as an effective tonic for overall vitality.</p>
+    </div>
+
+    <div id="modelContainer" style="width: 100%; max-width: 600px; height: 400px; margin-bottom: 20px; background-color: black; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center;">
+        <!-- Placeholder for 3D Model -->
+    </div>
+
+    <div style="text-align: left; max-width: 800px; width: 100%;">
+        <h2>Medicinal Uses</h2>
+        <p>Shatavari is widely used for its extensive medicinal properties, particularly in the following traditional medicine systems:</p>
+        <ul>
+            <li><strong>Unani:</strong> Used as a cooling agent and diuretic to treat urinary problems, dehydration, and general weakness.</li>
+            <li><strong>Siddha:</strong> Known for its rejuvenating properties, it helps in balancing the three humors (Vatha, Pitta, and Kapha) and is often prescribed for women's health issues.</li>
+            <li><strong>Homeopathy:</strong> Used for hormonal imbalances, digestive health, and stress management.</li>
+        </ul>
+
+        <h2>Home Remedies</h2>
+        <ul>
+            <li><strong>Shatavari Powder:</strong> Consumed with milk, it helps boost fertility, reduce menstrual cramps, and promote lactation.</li>
+            <li><strong>Digestive Aid:</strong> Shatavari juice is used to treat acidity, gastritis, and irritable bowel syndrome.</li>
+            <li><strong>Immune Tonic:</strong> Regular consumption of Shatavari decoction boosts immunity and reduces fatigue.</li>
+        </ul>
+
+        <h2>Cultivation</h2>
+        <p>Shatavari is a hardy plant that thrives in diverse climates, making it easy to cultivate:</p>
+        <ul>
+            <li><strong>Climate:</strong> Grows well in tropical and subtropical climates, with temperatures ranging between 25-35°C.</li>
+            <li><strong>Soil:</strong> Prefers sandy loam soil with good drainage and a pH of 6-8.</li>
+            <li><strong>Watering:</strong> Requires moderate watering, ensuring the soil remains moist but not waterlogged.</li>
+            <li><strong>Propagation:</strong> Propagated through seeds or root cuttings, usually grown during the monsoon season.</li>
+            <li><strong>Harvesting:</strong> The roots are harvested after 18-24 months of planting.</li>
+        </ul>
+
+        <h2>Other Benefits</h2>
+        <p>Shatavari offers numerous benefits beyond its medicinal uses:</p>
+        <ul>
+            <li><strong>Women's Health:</strong> Known as a uterine tonic, it helps regulate menstrual cycles and alleviate menopause symptoms.</li>
+            <li><strong>Adaptogenic Properties:</strong> Helps the body cope with physical and emotional stress.</li>
+            <li><strong>Anti-inflammatory:</strong> Reduces inflammation in conditions like arthritis and joint pain.</li>
+            <li><strong>Aphrodisiac:</strong> Traditionally used to enhance sexual health and vitality in both men and women.</li>
+            <li><strong>Respiratory Health:</strong> Shatavari is used to treat coughs, colds, and bronchitis.</li>
+        </ul>
+
+        <button onclick="goBack()" style="background-color: #3a9c3e; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; margin-top: 20px;">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function init3DModel(modelPath) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 600 / 400, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+            renderer.setSize(600, 400);
+            renderer.setClearColor(0x000000);
+            document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                gltf.scene.scale.set(0.8, 0.8, 0.8);
+                scene.add(gltf.scene);
+            }, undefined, (error) => {
+                console.error('An error occurred while loading the model:', error);
+            });
+
+            camera.position.z = 2;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        if (document.getElementById('modelContainer')) {
+            init3DModel('../models/shatavari.glb');
+        }
+    </script>
+</body>
+</html>
